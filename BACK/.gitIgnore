@@ -1,0 +1,6 @@
+#Ignora la carpeta node_modules
+node_modules
+#Ignorar el archivo .env
+.env
+#Ignora el archvo index.http de la carpeta test
+test/index.http

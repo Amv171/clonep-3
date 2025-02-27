@@ -12,6 +12,8 @@ const dbConnect = require("./config/mongo");
 //Creamos una instancia de express llamada app
 const app = express();
 
+//Configuramos express para que entienda json
+app.use(express.json())
 
 
 //Uso de rutas

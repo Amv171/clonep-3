@@ -1,29 +1,19 @@
 const express = require("express");
 
 //Importo las funciones del controlador de auth
-const { register, login, verifyOTP } = require('../controllers/auth');
-
-const { sendMail } = require('../utils/handleMail');
+const { register, login, resendOTP } = require('../controllers/auth');
 
 //Importo la funcion de validacion de usuario
-const {validateRegister, validateLogin, validateVerify} = require('../validators/auth');
+const {validateRegister, validateLogin, validateVerify, validateSendOTPVerificationMail} = require('../validators/auth');
 
+//Importo la funcion de verificacion de OTP
+const { verifyOTP } = require('../utils/handleOTPVerification');
 
 const router = express.Router();
-
-//Configuracion del mail
-const mailOptions = {
-    from: process.env.EMAIL,
-    to: "moreno.villas.17@gmail.com",
-    subject: "Verificacion de mail",
-    text: "Hola manito esto es una pruebecica to wapa de un email",
-  };
-
 
 
 router.get("/", (req, res) => {
     res.send("Hello from auth");
-    sendMail(mailOptions);
 });
 
 
@@ -33,7 +23,11 @@ router.post("/register",validateRegister,register);
 router.post("/login",validateLogin,login);
 
 
-router.post("/verify",validateVerify,verifyOTP);
+router.post("/verifyOTP",validateVerify,verifyOTP);
+
+router.post("/resendOTP",validateSendOTPVerificationMail, resendOTP);
+
+
 
 
 

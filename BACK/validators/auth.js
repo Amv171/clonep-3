@@ -24,4 +24,10 @@ const validateVerify = [
     (req,res,next) => validateResults(req,res,next)
 ];
 
-module.exports = {validateRegister, validateLogin, validateVerify}
+
+const validateSendOTPVerificationMail = [
+    check ("mail").exists().notEmpty().isEmail(),
+    (req,res,next) => validateResults(req,res,next)
+]
+
+module.exports = {validateRegister, validateLogin, validateVerify, validateSendOTPVerificationMail}

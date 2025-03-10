@@ -22,7 +22,11 @@ const UsuarioSchema = new mongoose.Schema(
         },
         age:{
             type: Number
-        }
+        },
+        verified:{
+            type: Boolean,
+            default: false
+        },
     },
     {
         timestamps: true, 

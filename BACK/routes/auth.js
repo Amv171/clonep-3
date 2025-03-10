@@ -19,9 +19,7 @@ router.get("/", (req, res) => {
 
 router.post("/register",validateRegister,register);
 
-
 router.post("/login",validateLogin,login);
-
 
 router.post("/verifyOTP",validateVerify,verifyOTP);
 

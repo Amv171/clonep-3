@@ -3,7 +3,8 @@ require('dotenv').config();
 //Importamos express 
 const express = require("express");
 
-
+//Importo cors para poder hacer peticiones desde un cliente
+const cors = require("cors");
 
 //Importo la función para conectarme a la base de datos
 const dbConnect = require("./config/mongo");
@@ -19,7 +20,8 @@ app.use(express.json())
 //Uso de rutas
 app.use("/api", require("./routes"));
 
-
+//Configuramos express para que use cors
+app.use(cors());
 
 
 

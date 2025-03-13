@@ -16,12 +16,14 @@ const app = express();
 //Configuramos express para que entienda json
 app.use(express.json())
 
+//Configuramos express para que use cors
+app.use(cors());
+
 
 //Uso de rutas
 app.use("/api", require("./routes"));
 
-//Configuramos express para que use cors
-app.use(cors());
+
 
 
 

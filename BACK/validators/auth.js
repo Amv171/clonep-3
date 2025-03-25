@@ -18,7 +18,7 @@ const validateRegister = [
     }),
     
     check('password').exists().isString().notEmpty().isLength({min: 8}),
-    check('age').exists().isInt().notEmpty(),
+    check('age').optional().isInt().notEmpty(),
     (req,res,next) => validateResults(req,res,next)
 ];
 

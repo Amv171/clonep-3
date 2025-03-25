@@ -2,5 +2,6 @@
 const models = {
     userModel: require('./mongo/user'),
     otpVerificationUserModel: require('./mongo/userOTPVerification'),
+    tfgModel: require('./mongo/tfg')
 }
 module.exports = models;

@@ -1,7 +1,12 @@
 // Importamos dotenv para manejar variables de entorno
 require('dotenv').config();
+
 //Importamos express 
 const express = require("express");
+
+//Importo swagger para la documentacion
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./docs/swagger");
 
 //Importo cors para poder hacer peticiones desde un cliente
 const cors = require("cors");
@@ -22,6 +27,9 @@ app.use(cors());
 
 //Uso de rutas
 app.use("/api", require("./routes"));
+
+//Uso de la documentacion
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 

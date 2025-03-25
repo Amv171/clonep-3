@@ -6,7 +6,17 @@ const {validateResults} = require('../utils/handleValidator');
 
 const validateRegister = [
     check('name').exists().isString().notEmpty(),
-    check('mail').exists().isEmail().notEmpty(),
+    check('mail').exists().isEmail().
+    withMessage("Debe ser un correo válido")
+    .custom((value) => {
+      const allowedDomains = ["@live.u-tad.com", "@u-tad.com"];
+      const domain = value.substring(value.lastIndexOf("@"));
+      if (!allowedDomains.includes(domain)) {
+        throw new Error("El correo debe ser de los dominios @live.u-tad.com o @u-tad.com");
+      }
+      return true;
+    }),
+    
     check('password').exists().isString().notEmpty().isLength({min: 8}),
     check('age').exists().isInt().notEmpty(),
     (req,res,next) => validateResults(req,res,next)

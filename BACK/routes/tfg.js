@@ -5,7 +5,7 @@ const router = express.Router();
 const { getItems, getAllItems , createItem, validateTFG} = require('../controllers/tfg');
 
 //Importo la funcion de validacion de usuario
-const {validatorCreateItem, validatorValidateitem} = require('../validators/TFG');
+const {validatorCreateItem, validatorValidateitem} = require('../validators/tfg');
 
 //Importo la función para sacar la sesion
 const {authMiddleware, checkRol} = require('../middleware/session');

@@ -45,4 +45,14 @@ const validatorCreateItem = [
         (req,res,next) => validateResults(req,res,next)
 ];
 
-module.exports = {validatorCreateItem}
+
+const validatorValidateitem=[
+    check ('titulo')
+        .exists().withMessage('El título es obligatorio')
+        .notEmpty().withMessage('El título no puede estar vacío')
+        .isString().withMessage('El título debe ser un texto'),
+        (req,res,next) => validateResults(req,res,next)
+
+]
+
+module.exports = {validatorCreateItem, validatorValidateitem};

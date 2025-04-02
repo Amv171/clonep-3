@@ -43,7 +43,7 @@ router.get("/", (req, res) => {
 
 /**
  * @swagger
- * /auth/register:
+ * /api/auth/register:
  *   post:
  *     summary: Registro de un nuevo usuario
  *     tags: [Auth]
@@ -70,7 +70,7 @@ router.post("/register",validateRegister,register);
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *   post:
  *     summary: Inicio de sesión de un usuario
  *     tags: [Auth]
@@ -95,7 +95,7 @@ router.post("/login",validateLogin,login);
 
 /**
  * @swagger
- * /auth/verifyOTP:
+ * /api/auth/verifyOTP:
  *   post:
  *     summary: Verificación de código OTP
  *     tags: [Auth]
@@ -120,7 +120,7 @@ router.post("/verifyOTP",validateVerify,verifyOTP);
 
 /**
  * @swagger
- * /auth/resendOTP:
+ * /api/auth/resendOTP:
  *   post:
  *     summary: Reenvío de código OTP
  *     tags: [Auth]

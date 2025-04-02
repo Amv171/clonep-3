@@ -4,3 +4,5 @@ node_modules
 .env
 #Ignora el archvo index.http de la carpeta test
 test/index.http
+#Ignora la carpeta test
+test

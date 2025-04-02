@@ -4,50 +4,48 @@ const {check} = require('express-validator');
 //Importo la funcio  para validar los resultados de los validadores
 const {validateResults} = require('../utils/handleValidator');
 
-// Atributos obligatorios: titulo, asignatura, estudiante, resumen, cursoAcademico, subidoPor
+// Atributos obligatorios: TituloTFG, Año, TitulaciónGrado, Alumno, Tutor, Abstract
+// Atributos opcionales: archivo, enlacesExternos
 const validatorCreateItem = [
-    check('titulo')
-        .exists().withMessage('El título es obligatorio')
-        .notEmpty().withMessage('El título no puede estar vacío')
-        .isString().withMessage('El título debe ser un texto'),
-    check('asignatura')
-        .exists().withMessage('La asignatura es obligatoria')
-        .notEmpty().withMessage('La asignatura no puede estar vacía')
-        .isString().withMessage('La asignatura debe ser un texto'),
-    check('estudiante')
-        .exists().withMessage('Los estudiantes son obligatorios')
-        .isString().withMessage('Los estudiantes deben ser un texto'),
-    check('docente')
-        .optional() // Marcado como opcional
-        .isString().withMessage('El docente debe ser un texto'),
-    check('resumen')
-        .exists().withMessage('El resumen es obligatorio')
-        .notEmpty().withMessage('El resumen no puede estar vacío')
-        .isString().withMessage('El resumen debe ser un texto'),
-    check('palabrasClave')
-        .optional() // Marcado como opcional
-        .isArray().withMessage('Las palabras clave deben ser un arreglo'),
-    check('cursoAcademico')
-        .exists().withMessage('El curso académico es obligatorio')
-        .notEmpty().withMessage('El curso académico no puede estar vacío')
-        .isString().withMessage('El curso académico debe ser un texto'),
+    check('TituloTFG')
+        .exists().withMessage('El título del TFG es obligatorio')
+        .notEmpty().withMessage('El título del TFG no puede estar vacío')
+        .isString().withMessage('El título del TFG debe ser un texto'),
+    check('Año')
+        .exists().withMessage('El año académico es obligatorio')
+        .notEmpty().withMessage('El año académico no puede estar vacío')
+        .isString().withMessage('El año académico debe ser un texto'),
+    check('TitulaciónGrado')
+        .exists().withMessage('La titulación o grado es obligatorio')
+        .notEmpty().withMessage('La titulación o grado no puede estar vacía')
+        .isString().withMessage('La titulación o grado debe ser un texto'),
+    check('Alumno')
+        .exists().withMessage('El nombre del alumno es obligatorio')
+        .notEmpty().withMessage('El nombre del alumno no puede estar vacío')
+        .isString().withMessage('El nombre del alumno debe ser un texto'),
+    check('Tutor')
+        .exists().withMessage('El nombre del tutor es obligatorio')
+        .notEmpty().withMessage('El nombre del tutor no puede estar vacío')
+        .isString().withMessage('El nombre del tutor debe ser un texto'),
+    check('Abstract')
+        .exists().withMessage('El resumen (abstract) es obligatorio')
+        .notEmpty().withMessage('El resumen (abstract) no puede estar vacío')
+        .isString().withMessage('El resumen (abstract) debe ser un texto'),
     check('archivo')
-        .optional() // Marcado como opcional
+        .optional()
         .isString().withMessage('El archivo debe ser un texto'),
     check('enlacesExternos')
-        .optional() // Marcado como opcional
+        .optional()
         .isArray().withMessage('Los enlaces externos deben ser un arreglo'),
     check('enlacesExternos.*')
         .isString().withMessage('Cada enlace externo debe ser un texto'),
-    check('estado')
-        .optional() // Marcado como opcional
-        .isIn(['pendiente', 'aprobado']).withMessage('El estado debe ser "pendiente" o "aprobado"'),
-        (req,res,next) => validateResults(req,res,next)
+    (req, res, next) => validateResults(req, res, next)
 ];
 
 
+
 const validatorValidateitem=[
-    check ('titulo')
+    check ('TituloTFG')
         .exists().withMessage('El título es obligatorio')
         .notEmpty().withMessage('El título no puede estar vacío')
         .isString().withMessage('El título debe ser un texto'),

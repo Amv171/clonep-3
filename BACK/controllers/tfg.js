@@ -40,9 +40,16 @@ const createItem = async (req, res) => {
     try{
         //Extraigo los datos validados
         const data = matchedData(req);
-        //Creo un nuevo usuario
+
+        //Busco si ya existe un tfg con el mismo titulo
+        const tfg = await tfgModel.findOne({TituloTFG: data.TituloTFG});
+        if(tfg){
+            handleHttpError(res, "ERR_TFG_ALREADY_EXISTS", 409);
+            return;
+        }
+        //Creo un nuevo tfg
         const newTFG = await tfgModel.create(data);
-        //Envio el usuario
+        //Envio el nuevo tfg
         res.send(newTFG);
     }
     catch(error){
@@ -58,7 +65,7 @@ const validateTFG = async (req, res) => {
  try{
     const data = matchedData(req);
 
-    const tfg = await tfgModel.findOne({titulo: data.titulo});
+    const tfg = await tfgModel.findOne({TituloTFG: data.TituloTFG});
     if(!tfg){
         handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
         return ;
@@ -69,8 +76,7 @@ const validateTFG = async (req, res) => {
             return ;
         }
         else{
-            console.log("Entra en el ultimo else");
-            await tfgModel.updateOne({titulo: data.titulo}, {estado: "aprobado"});
+            await tfgModel.updateOne({TituloTFG: data.TituloTFG}, {estado: "aprobado"});
             res.send(tfg);
     }
 }

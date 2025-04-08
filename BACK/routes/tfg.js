@@ -225,7 +225,7 @@ router.get("getTFGMaster",authMiddleware,getItemsMasters);
 //Ruta para obtener los tfg de un grado en concreto
 /**
  * @swagger
- * /api/tfg/getTFGMasters:
+ * /api/tfg/getTFGGrados/{TitulacionGrado}:
  *   get:
  *     summary: Retrieve TFG by degree
  *     tags: [TFG]

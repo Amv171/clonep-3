@@ -23,6 +23,19 @@ const getAllItems = async (req, res) => {
 };
 
 
+const getPendingItems = async (req, res) => {
+    try{
+        //Obtengo todos los usuarios de la base de datos
+        const tfg = await tfgModel.find( {estado: "pendiente"});
+        //Envio los usuarios
+        res.send(tfg);
+    }
+    catch(error){
+        //Manejo el error
+        handleHttpError(res, "ERR_GET_TFG");
+    }
+}
+
 const getItems = async (req, res) => {
     try{
         //Obtengo todos los usuarios de la base de datos
@@ -35,6 +48,48 @@ const getItems = async (req, res) => {
         handleHttpError(res, "ERR_GET_TFG");
     }
 }
+
+
+const getItemsGrados = async (req, res) => {
+    try {
+        // Obtengo el parámetro de la ruta
+        const { TitulacionGrado } = req.params;
+
+        // Construyo el filtro dinámico basado en el parámetro recibido
+        const filter = {
+            estado: "aprobado",
+            TitulaciónGrado: TitulacionGrado ? { $in: [TitulacionGrado] } : { $in: ["ANIV", "ANIG", "ANIM", "DIRE", "DIDI", "DVCD", "DIPI", "DIPG", "INSO", "IDCD", "MACO"] }
+        };
+
+        // Obtengo los datos de la base de datos
+        const tfg = await tfgModel.find(filter);
+
+        // Envío los datos
+        res.send(tfg);
+    } catch (error) {
+        // Manejo el error
+        handleHttpError(res, "ERR_GET_TFG");
+    }
+};
+
+const getItemsMasters= async (req, res) => {
+    try{
+        //Obtengo todos los usuarios de la base de datos
+        const tfg = await tfgModel.find({
+            estado: "aprobado",
+            TitulaciónGrado: { $in: ["MCRS"] }
+        });
+        //Envio los usuarios
+        res.send(tfg);
+    }
+    catch(error){
+        //Manejo el error
+        handleHttpError(res, "ERR_GET_TFG");
+    }
+}
+
+
+
 
 const createItem = async (req, res) => {
     try{
@@ -85,4 +140,4 @@ catch(error){
     handleHttpError(res, "ERR_VALIDATE_TFG");
 }
 }  
-module.exports = { getItems, getAllItems , createItem, validateTFG }
+module.exports = { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters};

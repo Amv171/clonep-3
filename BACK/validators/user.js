@@ -8,7 +8,6 @@ const validatorCreateItem = [
     check('name').exists().isString().notEmpty(),
     check('mail').exists().isEmail().notEmpty(),
     check('password').exists().isString().notEmpty(),
-    check('age').optional().isInt(),
 (req,res,next) => validateResults(req,res,next)
 ];
 

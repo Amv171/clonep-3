@@ -7,7 +7,10 @@ const mongooseDelete = require('mongoose-delete');
 const TFGSchema = new mongoose.Schema({
     TituloTFG: { type: String, required: true, default: '' }, // Título del TFG
     Año: { type: String, required: true, default: '' }, // Año académico
-    TitulaciónGrado: { type: String, required: true, default: '' }, // Titulación o grado
+    TitulaciónGrado: { type: String, required: true, enum:
+        ['ANIV', 'ANIG', 'ANIM', 'DIRE', 'DIDI', 'DVCD', 
+        'DIPI', 'DIPG', 'INSO', 'IDCD', 'MACO', 'MCRS'],
+         default: 'INSO' }, // Titulación o grado
     Alumno: { type: String, required: true, default: '' }, // Nombre del alumno
     Tutor: { type: String, required: true, default: '' }, // Nombre del tutor
     Abstract: { type: String, required: true, default: '' }, // Resumen o abstract del TFG
@@ -23,4 +26,3 @@ const TFGSchema = new mongoose.Schema({
 
 TFGSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
 module.exports = mongoose.model('tfg', TFGSchema);
-

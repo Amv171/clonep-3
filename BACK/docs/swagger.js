@@ -22,6 +22,7 @@ const swaggerJsdoc = require("swagger-jsdoc")
           servers: [
             {
               url: "http://localhost:3000",
+              url: "https://educational-thomasa-u-tad-p-3-9572ccaa.koyeb.app"
             },
           ],
           components: {

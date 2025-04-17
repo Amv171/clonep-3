@@ -9,10 +9,8 @@ const {validatorCreateItem} = require('../validators/user');
 
 
 
-
-
-
 router.get("/getUsers", getItems);
+
 
 //Exporto el router de auth
 module.exports = router

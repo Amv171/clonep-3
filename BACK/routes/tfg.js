@@ -1,15 +1,17 @@
 /**
  * @swagger
  * tags:
- *   name: TFG
- *   description: Endpoints relacionados con el manejo de los objetos TFG
+ *  name: TFGs
+ *  description: Endpoints relacionados con los Trabajos de Fin de Grado (TFG) y Trabajos de Fin de Master (TFM)
  */
 
 const express = require("express");
 const router = express.Router();
 
 //Importo las funciones del controlador de usuario
-const { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters} = require('../controllers/tfg');
+const { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters,
+    getItemByTitle,getItemByAuthor
+} = require('../controllers/tfg');
 
 //Importo la funcion de validacion de usuario
 const {validatorCreateItem, validatorValidateitem} = require('../validators/tfg');
@@ -232,7 +234,11 @@ router.get("getTFGMaster",authMiddleware,getItemsMasters);
  *     description: Retrieve a list of TFGs by degree from the database.
  *     parameters:
  *       - in: path
- *        name: TitulacionGrado 
+ *         name: TitulacionGrado
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The degree to filter TFGs by.
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -243,13 +249,81 @@ router.get("getTFGMaster",authMiddleware,getItemsMasters);
  *             schema:
  *               type: array
  *               items:
- *                 type: string
+ *                 $ref: '#/components/schemas/TFG'
  *       401:
  *         description: Unauthorized. Token is missing or invalid.
  *       500:
  *         description: Server error.
  */
 router.get("/getTFGGrados/:TitulacionGrado",authMiddleware,getItemsGrados);
+
+
+
+
+//Ruta para obtener los tfg de un grado en concreto
+/**
+ * @swagger
+ * /api/tfg/getTFGByTitle/{TituloTFG}:
+ *   get:
+ *     summary: Retrieve TFG by title
+ *     tags: [TFG]
+ *     description: Retrieve a TFG by its title from the database.
+ *     parameters:
+ *       - in: path
+ *         name: TituloTFG
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The title of the TFG to retrieve.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A TFG by title.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TFG'
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       500:
+ *         description: Server error.
+ */
+router.get("/getTFGByTitle/:TituloTFG",authMiddleware,getItemByTitle);
+
+
+//Ruta para obtener los tfg de un alumno en concreto
+/**
+ * @swagger
+ * /api/tfg/getTFGByAlumno/{mail}:
+ *   get:
+ *     summary: Retrieve TFG by student email
+ *     tags: [TFG]
+ *     description: Retrieve a list of TFGs by student email from the database.
+ *     parameters:
+ *       - in: path
+ *         name: mail
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The email of the student to filter TFGs by.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of TFG by student email.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/TFG'
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       500:
+ *         description: Server error.
+ */
+router.get("/getTFGByAlumno/:mail",authMiddleware,getItemByAuthor);
 
 
 //Exporto el router de auth

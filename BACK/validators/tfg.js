@@ -19,10 +19,6 @@ const validatorCreateItem = [
         .exists().withMessage('La titulación o grado es obligatorio')
         .notEmpty().withMessage('La titulación o grado no puede estar vacía')
         .isString().withMessage('La titulación o grado debe ser un texto'),
-    check('Alumno')
-        .exists().withMessage('El nombre del alumno es obligatorio')
-        .notEmpty().withMessage('El nombre del alumno no puede estar vacío')
-        .isString().withMessage('El nombre del alumno debe ser un texto'),
     check('Tutor')
         .exists().withMessage('El nombre del tutor es obligatorio')
         .notEmpty().withMessage('El nombre del tutor no puede estar vacío')

@@ -1,5 +1,5 @@
 //Importo el modelo de usuario para poder hacer las consultas a la base de datos
-const {tfgModel} = require('../models');
+const {tfgModel, userModel} = require('../models');
 
 //Importo matched-data para validar los datos que recibo del front
 const {matchedData} = require('express-validator');
@@ -96,6 +96,13 @@ const createItem = async (req, res) => {
         //Extraigo los datos validados
         const data = matchedData(req);
 
+        //Busco si el usuario existe
+        const user = await userModel.findOne({mail: req.token.mail});
+        if(!user){
+            handleHttpError(res, "ERR_USER_NOT_FOUND", 404);
+            return ;
+        }
+        data.Alumno = user.name;
         //Busco si ya existe un tfg con el mismo titulo
         const tfg = await tfgModel.findOne({TituloTFG: data.TituloTFG});
         if(tfg){
@@ -140,4 +147,66 @@ catch(error){
     handleHttpError(res, "ERR_VALIDATE_TFG");
 }
 }  
-module.exports = { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters};
+
+
+
+
+//Función para recibir un tfg por el titulo
+const getItemByTitle = async (req, res) => {
+try{
+    //Extraigo los datos validados
+    const {TituloTFG} = req.params;
+
+    //Busco si ya existe un tfg con el mismo titulo
+    const tfg = await tfgModel.findOne({TituloTFG: TituloTFG});
+    if(!tfg){
+        handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
+        return ;
+    }
+    else{
+        res.send(tfg);
+    }
+}
+catch(error){
+    handleHttpError(res, "ERR_GET_TFG");
+    return;
+}
+}
+
+const getItemByAuthor = async (req, res) => {
+    try{
+        //Extraigo los datos validados
+        const {mail} = req.params;
+
+        const user = await userModel.findOne({mail: mail});
+        if(!user){
+            handleHttpError(res, "ERR_USER_NOT_FOUND", 404);
+            return ;
+        }
+        //Busco si ya existe un tfg con el mismo titulo
+        const tfg = await tfgModel.find({Alumno: user.name});
+        if(!tfg){
+            handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
+            return ;
+        }
+        else{
+            tfg.forEach(tfg => {
+                    if(tfg.Alumno != user.name){
+                        if (tfg.estado == "pendiente"){
+                            handleHttpError(res, "ERR_TFG_NOT_APROVED", 404);
+                            return ;
+                        }
+                    }
+            });
+        }
+            res.send(tfg);
+        }
+    catch(error){
+        handleHttpError(res, "ERR_GET_TFG");
+        return;
+    }
+}
+
+
+
+module.exports = { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor};

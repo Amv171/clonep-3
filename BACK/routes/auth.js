@@ -5,14 +5,6 @@
  *   description: Endpoints relacionados con la autenticación de usuarios
  */
 
-
-
-
-
-
-
-
-
 const express = require("express");
 
 //Importo las funciones del controlador de auth

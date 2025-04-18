@@ -9,7 +9,7 @@ const express = require("express");
 const router = express.Router();
 
 //Importo las funciones del controlador de usuario
-const { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters,
+const { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems, getItemsGrados, getItemsMasters,
     getItemByTitle,getItemByAuthor
 } = require('../controllers/tfg');
 
@@ -164,6 +164,38 @@ router.post("/createTFG",authMiddleware,checkRol(["admin","user"]),validatorCrea
  *         description: Server error.
  */
 router.post("/validateTFG",authMiddleware,checkRol(["admin","coord"]),validatorValidateitem ,validateTFG);
+
+//Ruta para invalidar un tfg
+/**
+ * @swagger
+ * /api/tfg/invalidateTFG:
+ *   post:
+ *     summary: Invalidate a TFG (admin only)
+ *     tags: [TFG]
+ *     description: Invalidate a TFG in the database. Requires admin or coordinator role.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               TituloTFG:
+ *                 type: string
+ *                 description: The title of the TFG to invalidate.
+ *     responses:
+ *       200:
+ *         description: TFG invalidated successfully.
+ *       400:
+ *         description: Bad request. Validation failed.
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       500:
+ *         description: Server error.
+ */
+router.post("/invalidateTFG",authMiddleware,checkRol(["admin","coord"]),validatorValidateitem ,invalidateTFG);
 
 
 

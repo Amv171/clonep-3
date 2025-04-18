@@ -134,7 +134,7 @@ const validateTFG = async (req, res) => {
     }
     else{
         if (tfg.estado != "pendiente"){
-            handleHttpError(res, "ERR_TFG_ALREADY_APPROVED", 400);
+            handleHttpError(res, "ERR_TFG_ALREADY_JUDGE", 400);
             return ;
         }
         else{
@@ -148,6 +148,31 @@ catch(error){
 }
 }  
 
+
+const invalidateTFG = async (req, res) => {
+    try{
+       const data = matchedData(req);
+   
+       const tfg = await tfgModel.findOne({TituloTFG: data.TituloTFG});
+       if(!tfg){
+           handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
+           return ;
+       }
+       else{
+           if (tfg.estado != "pendiente"){
+               handleHttpError(res, "ERR_TFG_ALREADY_JUDGED", 400);
+               return ;
+           }
+           else{
+               await tfgModel.updateOne({TituloTFG: data.TituloTFG}, {estado: "suspenso"});
+               res.send(tfg);
+       }
+   }
+   }
+   catch(error){
+       handleHttpError(res, "ERR_INVALIDATE_TFG");
+   }
+   }  
 
 
 
@@ -209,4 +234,4 @@ const getItemByAuthor = async (req, res) => {
 
 
 
-module.exports = { getItems, getAllItems , createItem, validateTFG, getPendingItems, getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor};
+module.exports = { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems, getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor};

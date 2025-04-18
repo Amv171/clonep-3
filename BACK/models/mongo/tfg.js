@@ -16,7 +16,7 @@ const TFGSchema = new mongoose.Schema({
     Abstract: { type: String, required: true, default: '' }, // Resumen o abstract del TFG
     archivo: { type: String, default: '' }, 
     enlacesExternos: [{ type: String, default: '' }],
-    estado: { type: String, enum: ['pendiente', 'aprobado'], default: 'pendiente' },
+    estado: { type: String, enum: ['pendiente', 'aprobado','suspenso'], default: 'pendiente' },
     fechaSubida: { type: Date, default: Date.now }
 },
 {

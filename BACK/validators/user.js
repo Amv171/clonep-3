@@ -11,4 +11,9 @@ const validatorCreateItem = [
 (req,res,next) => validateResults(req,res,next)
 ];
 
-module.exports = {validatorCreateItem}
+const validatorDeleteItem = [
+    check('mail').exists().isEmail().notEmpty(),
+    (req,res,next) => validateResults(req,res,next)
+]
+
+module.exports = {validatorCreateItem, validatorDeleteItem}

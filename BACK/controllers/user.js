@@ -21,4 +21,25 @@ const getItems = async (req, res) => {
     }
 };
 
-module.exports = { getItems }
+const deleteItemAdmin = async (req, res) => {
+    try {
+        //Obtengo los datos del usuario
+        const { mail } = matchedData(req);
+        //Busco el usuario en la base de datos
+        const user = await userModel.findOne({ mail: mail });
+        //Si no existe el usuario, devuelvo un error
+        if (!user) {
+            return handleHttpError(res, "USER_NOT_FOUND");
+        }
+        //Si existe el usuario, lo elimino
+        await userModel.deleteOne({ mail: mail });
+        //Devuelvo un mensaje de exito
+        res.send({ message: "User deleted successfully", user });
+    }
+    catch (error) {
+        //Manejo el error
+        handleHttpError(res, "ERR_DELETE_USER");
+    }
+}
+
+module.exports = { getItems, deleteItemAdmin }

@@ -1,7 +1,7 @@
 /**
  * @swagger
  * tags:
- *  name: TFGs
+ *  name: TFG
  *  description: Endpoints relacionados con los Trabajos de Fin de Grado (TFG) y Trabajos de Fin de Master (TFM)
  */
 
@@ -10,7 +10,7 @@ const router = express.Router();
 
 //Importo las funciones del controlador de usuario
 const { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems, getItemsGrados, getItemsMasters,
-    getItemByTitle,getItemByAuthor
+    getItemByTitle,getItemByAuthor, deleteItemAdmin, deleteItem
 } = require('../controllers/tfg');
 
 //Importo la funcion de validacion de usuario
@@ -356,6 +356,78 @@ router.get("/getTFGByTitle/:TituloTFG",authMiddleware,getItemByTitle);
  *         description: Server error.
  */
 router.get("/getTFGByAlumno/:mail",authMiddleware,getItemByAuthor);
+
+
+
+
+
+
+
+
+//Ruta para elminar un tfg
+/**
+ * @swagger
+ * /api/tfg/deleteTFGAdmin:
+ *   post:
+ *     summary: Delete a TFG (admin only)
+ *     tags: [TFG]
+ *     description: Delete a TFG from the database. Requires admin or coordinator role.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               TituloTFG:
+ *                 type: string
+ *                 description: The title of the TFG to delete.
+ *     responses:
+ *       200:
+ *         description: TFG deleted successfully.
+ *       400:
+ *         description: Bad request. Validation failed.
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       500:
+ *         description: Server error.
+ */
+router.post("/deleteTFGAdmin",authMiddleware,checkRol(["admin","coord"]),validatorValidateitem ,deleteItemAdmin);
+
+//Ruta para elminar un tfg
+/**
+ * @swagger
+ * /api/tfg/deleteTFG:
+ *   post:
+ *     summary: Delete a TFG (user only)
+ *     tags: [TFG]
+ *     description: Delete a TFG from the database. Requires user role.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               TituloTFG:
+ *                 type: string
+ *                 description: The title of the TFG to delete.
+ *     responses:
+ *       200:
+ *         description: TFG deleted successfully.
+ *       400:
+ *         description: Bad request. Validation failed.
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       500:
+ *         description: Server error.
+ */
+router.post("/deleteTFG",authMiddleware,checkRol(["user"]),validatorValidateitem ,deleteItem);
+
 
 
 //Exporto el router de auth

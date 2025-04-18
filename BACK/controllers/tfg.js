@@ -234,4 +234,60 @@ const getItemByAuthor = async (req, res) => {
 
 
 
-module.exports = { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems, getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor};
+
+const deleteItemAdmin =  async (req, res) => {
+    try{
+        //Extraigo los datos validados
+        const data = matchedData(req);
+
+        const tfg = await tfgModel.findOne({TituloTFG: data.TituloTFG});
+        if(!tfg){
+            handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
+            return ;
+        }
+        else{
+            await tfgModel.deleteOne({TituloTFG: data.TituloTFG});
+            res.send(tfg);
+        }
+    }
+    catch(error){
+        handleHttpError(res, "ERR_DELETE_TFG");
+    }
+}
+
+
+const deleteItem =  async (req, res) => {
+    try{
+        //Extraigo los datos validados
+        const data = matchedData(req);
+
+        const tfg = await tfgModel.findOne({TituloTFG: data.TituloTFG});
+
+
+        const user = await userModel.findOne({mail: req.token.mail});
+        if(!user){
+            handleHttpError(res, "ERR_USER_NOT_FOUND", 404);
+            return ;
+        }
+        if(!tfg){
+            handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
+            return ;
+        }
+        else{
+            if( tfg.Alumno != user.name){
+                handleHttpError(res, "ERR_TFG_NOT_YOURS", 404);
+                return ;
+            }
+            await tfgModel.deleteOne({TituloTFG: data.TituloTFG});
+            res.send(tfg);
+        }
+    }
+    catch(error){
+        handleHttpError(res, "ERR_DELETE_TFG");
+    }
+}
+
+
+
+module.exports = { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems,
+     getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor, deleteItem, deleteItemAdmin };

@@ -54,7 +54,7 @@ const {authMiddleware, checkRol} = require('../middleware/session');
  *       403:
  *         description: Forbidden. User does not have the required role.
  */ 
-router.get("/", authMiddleware, checkRol(["admin"]), getItems);
+router.get("/getAllUsers", authMiddleware, checkRol(["admin"]), getItems);
 
 
 

@@ -234,6 +234,31 @@ const getItemByAuthor = async (req, res) => {
 
 
 
+const getItemByTutor = async (req, res) => {
+    try{
+        //Extraigo los datos validados
+        const {name} = req.params;
+        //Busco si ya existe un tfg con el mismo titulo
+        const tfg = await tfgModel.find({Tutor: name});
+        if(!tfg){
+            handleHttpError(res, "ERR_TFG_NOT_FOUND", 404);
+            return ;
+        }
+        else{
+            const filteredTFG = tfg.filter(tfg => {
+                return tfg.Tutor === name && tfg.estado === 'aprobado';
+              });
+              res.send(filteredTFG);
+        }
+        }
+    catch(error){
+        handleHttpError(res, "ERR_GET_TFG");
+        return;
+    }
+}
+
+
+
 
 const deleteItemAdmin =  async (req, res) => {
     try{
@@ -290,4 +315,4 @@ const deleteItem =  async (req, res) => {
 
 
 module.exports = { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems,
-     getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor, deleteItem, deleteItemAdmin };
+     getItemsGrados, getItemsMasters, getItemByTitle, getItemByAuthor, deleteItem, deleteItemAdmin, getItemByTutor };

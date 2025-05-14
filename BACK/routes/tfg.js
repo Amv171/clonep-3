@@ -10,7 +10,7 @@ const router = express.Router();
 
 //Importo las funciones del controlador de usuario
 const { getItems, getAllItems , createItem, validateTFG, invalidateTFG, getPendingItems, getItemsGrados, getItemsMasters,
-    getItemByTitle,getItemByAuthor, deleteItemAdmin, deleteItem
+    getItemByTitle,getItemByAuthor, deleteItemAdmin, deleteItem, getItemByTutor
 } = require('../controllers/tfg');
 
 //Importo la funcion de validacion de usuario
@@ -357,6 +357,42 @@ router.get("/getTFGByTitle/:TituloTFG",authMiddleware,getItemByTitle);
  */
 router.get("/getTFGByAlumno/:mail",authMiddleware,getItemByAuthor);
 
+
+
+
+
+//Ruta para obtener los tfg de un tutor en concreto
+/**
+ * @swagger
+ * /api/tfg/getTFGByTutor/{mail}:
+ *   get:
+ *     summary: Retrieve TFG by teacher email
+ *     tags: [TFG]
+ *     description: Retrieve a list of TFGs by Tutor email from the database.
+ *     parameters:
+ *       - in: path
+ *         name: mail
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The email of the Tutor to filter TFGs by.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of TFG by Tutor email.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/TFG'
+ *       401:
+ *         description: Unauthorized. Token is missing or invalid.
+ *       500:
+ *         description: Server error.
+ */
+router.get("/getTFGByTutor/:name",authMiddleware,getItemByTutor);
 
 
 

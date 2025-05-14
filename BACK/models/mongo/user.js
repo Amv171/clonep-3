@@ -17,9 +17,8 @@ const UsuarioSchema = new mongoose.Schema(
         },
         role:{
             type: String,
-            enum:['user', 'admin', 'coord', 'teacher'],
-            default: 'user'
-        },
+            enum:['user', 'admin', 'coord', 'teacher']
+                },
         age:{
             type: Number
         },

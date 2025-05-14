@@ -46,12 +46,15 @@ router.get("/", (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               name:
  *                 type: string
- *               email:
+ *               mail:
  *                 type: string
  *               password:
  *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [user, teacher, coord]
  *     responses:
  *       200:
  *         description: Usuario registrado exitosamente

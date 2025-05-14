@@ -20,6 +20,44 @@ const getItems = async (req, res) => {
         handleHttpError(res, "ERR_GET_USERS");
     }
 };
+const getUsers = async (req, res) => {
+    try{
+        //Obtengo todos los usuarios de la base de datos
+        const users = await userModel.find({role:"user"});
+        //Envio los usuarios
+        res.send(users);
+    }
+    catch(error){
+        //Manejo el error
+        handleHttpError(res, "ERR_GET_USERS");
+    }
+};
+
+const getTeachers = async (req, res) => {
+    try{
+        //Obtengo todos los usuarios de la base de datos
+        const users = await userModel.find({role:"teacher"});
+        //Envio los usuarios
+        res.send(users);
+    }
+    catch(error){
+        //Manejo el error
+        handleHttpError(res, "ERR_GET_USERS");
+    }
+};
+
+const getCoordinators = async (req, res) => {
+    try{
+        //Obtengo todos los usuarios de la base de datos
+        const users = await userModel.find({role:"coord"});
+        //Envio los usuarios
+        res.send(users);
+    }
+    catch(error){
+        //Manejo el error
+        handleHttpError(res, "ERR_GET_USERS");
+    }
+};
 
 const deleteItemAdmin = async (req, res) => {
     try {
@@ -42,4 +80,4 @@ const deleteItemAdmin = async (req, res) => {
     }
 }
 
-module.exports = { getItems, deleteItemAdmin }
+module.exports = { getItems,getUsers,getTeachers,getCoordinators , deleteItemAdmin }

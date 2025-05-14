@@ -30,6 +30,7 @@ const user = require('../models/mongo/user');
 const register = async (req, res) => {
     try{
         req = matchedData(req);
+        console.log(req);
         const password = await encrypt(req.password);
         const body = {...req, password, verified: false};
        if ( await userExists(body.mail)){

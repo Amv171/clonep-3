@@ -18,7 +18,17 @@ const validateRegister = [
     }),
     
     check('password').exists().isString().notEmpty().isLength({min: 8}),
-    check('age').optional().isInt().notEmpty(),
+    check('role').exists().isString().notEmpty().
+    isIn(['user', 'teacher', 'coord']).withMessage('Rol no válido').
+    custom((rolValue, { req }) => {
+      const email = req.body.mail;
+      const domain = email?.substring(email.lastIndexOf("@"));
+
+      if (rolValue === 'coord' && domain !== '@u-tad.com') {
+        throw new Error("Solo los correos @u-tad.com pueden tener el rol 'coord'");
+      }
+      return true;
+    }),
     (req,res,next) => validateResults(req,res,next)
 ];
 
